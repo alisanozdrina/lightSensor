@@ -1,11 +1,26 @@
 
 /*
-  Made based on 
- * SparkFun_VL6180X_demo.ino
- * Example Sketch for VL6180x time of flight range finder.
- * Casey Kuhns @ SparkFun Electronics
- * 10/29/2014
- * https://github.com/sparkfun/SparkFun_ToF_Range_Finder-VL6180_Arduino_Library
+  Blink
+
+  Turns an LED on for one second, then off for one second, repeatedly.
+
+  Most Arduinos have an on-board LED you can control. On the UNO, MEGA and ZERO
+  it is attached to digital pin 13, on MKR1000 on pin 6. LED_BUILTIN is set to
+  the correct LED pin independent of which board is used.
+  If you want to know what pin the on-board LED is connected to on your Arduino
+  model, check the Technical Specs of your board at:
+  https://www.arduino.cc/en/Main/Products
+
+  modified 8 May 2014
+  by Scott Fitzgerald
+  modified 2 Sep 2016
+  by Arturo Guadalupi
+  modified 8 Sep 2016
+  by Colby Newman
+
+  This example code is in the public domain.
+
+  http://www.arduino.cc/en/Tutorial/Blink
 */
 
 
@@ -159,6 +174,7 @@ void setup() {
   {
     if (SerialStat) Serial.println ("not found.");
     CardExists = false;
+    SDStat = false;
   }
 
   int j;
@@ -266,9 +282,11 @@ void loop() {
   }
   Serial.println (ReadTimeDate());
 
+  
 if (SDStat)
   {
-    digitalWrite(LED_BUILTIN, HIGH);  
+    digitalWrite(LED_BUILTIN, HIGH);
+
     Serial.print ("*");
     logfile = SD.open(filename, FILE_WRITE);
     logfile.print (ReadTimeDate()); 
@@ -278,13 +296,11 @@ if (SDStat)
     logfile.print(reading[1]);  logfile.print(" ");
     logfile.print(reading[2]);  logfile.print(" ");
     logfile.print(reading[3]);  logfile.println(" ");
-    
     logfile.flush();
-    logfile.close();
-    digitalWrite(LED_BUILTIN, LOW);
+    logfile.close();  
 
   }
-
+  digitalWrite(LED_BUILTIN, LOW);  
   SyncTimeRTC();
   
  delay(1000);  
